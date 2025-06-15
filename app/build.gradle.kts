@@ -40,9 +40,17 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    // material design
     implementation("com.google.android.material:material:1.14.0-alpha01")
+    //local database
     implementation("androidx.room:room-runtime:2.7.1")
     annotationProcessor("androidx.room:room-compiler:2.7.1")
+    // http request with supabase
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("org.json:json:20240303")
+    // password hashing
+    implementation("org.mindrot:jbcrypt:0.4")
+
 
 
 }
