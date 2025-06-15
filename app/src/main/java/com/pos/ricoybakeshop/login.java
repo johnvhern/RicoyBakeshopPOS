@@ -20,8 +20,6 @@ public class login extends AppCompatActivity {
 
     private TextInputEditText userName, passWord;
     private MaterialButton btnSignIn;
-//    private SupabaseClient supabase;
-//    private UserDao userDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +44,5 @@ public class login extends AppCompatActivity {
 
         MaterialAutoCompleteTextView autoCompleteTextView = findViewById(R.id.branch_dropdown);
         autoCompleteTextView.setAdapter(adapter);
-
-//        supabase = createSupabaseClient(
-//                "https://ewvaowsmayxgkvyatavb.supabase.co",
-//                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV3dmFvd3NtYXl4Z2t2eWF0YXZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk5ODA2NjEsImV4cCI6MjA2NTU1NjY2MX0.lHURuXCaDh8VSMzx4Tf92BBATFvrVjDQ2FtxmkYDi1w"
-//        );
     }
 }
