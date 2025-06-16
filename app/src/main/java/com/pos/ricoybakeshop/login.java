@@ -8,8 +8,10 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -70,21 +72,26 @@ public class login extends AppCompatActivity {
 
         supabase = new SupabaseClient();
         db = AppDatabase.getInstance(getApplicationContext());
+        ProgressBar progressBar = findViewById(R.id.progressBar);
 
         btnSignIn.setOnClickListener(v -> {
+            btnSignIn.setEnabled(false);
+            progressBar.setVisibility(View.VISIBLE);
+            btnSignIn.setText("Signing in...");
+
             String username = userName.getText().toString().trim();
             String password = passWord.getText().toString();
-            String branch = autoCompleteTextView.getText().toString();
+            String branch = autoCompleteTextView.getText().toString().trim();
 
-            if (!username.isEmpty() || !password.isEmpty() || !branch.isEmpty()) {
-                user.setError(null);
-                pass.setError(null);
-                ddbranch.setError(null);
-            }else{
+            if (username.isEmpty() || password.isEmpty() || branch.isEmpty()) {
                 user.setError("Invalid input");
                 pass.setError("Invalid input");
                 ddbranch.setError("Please select branch");
                 return;
+            }else{
+                user.setError(null);
+                pass.setError(null);
+                ddbranch.setError(null);
             }
 
             ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -120,15 +127,32 @@ public class login extends AppCompatActivity {
 
                         runOnUiThread(() -> {
                             showToast("Login successful (online)");
-                            startActivity(new Intent(login.this, MainActivity.class));
-                            finish();
+//                            startActivity(new Intent(login.this, MainActivity.class));
+//                            finish();
+                            switch (user.role){
+                                case "admin":
+                                    startActivity(new Intent(login.this, MainActivity.class));
+                                    finish();
+                                    break;
+                                case "cashier":
+                                    startActivity(new Intent(login.this, Cashier.class));
+                                    finish();
+                                    break;
+                                case "baker":
+                                    startActivity(new Intent(login.this, Baker.class));
+                                    finish();
+                                    break;
+                            }
                             SessionManager sessionManager = new SessionManager(this);
-                            sessionManager.saveSession(username); // Save logged in user
+                            sessionManager.saveSession(username, user.role); // Save logged in user
                         });
 
                     } catch (Exception e) {
                         e.printStackTrace();
                         runOnUiThread(() -> showToast("Error: " + e.getMessage()));
+                        btnSignIn.setEnabled(true);
+                        progressBar.setVisibility(View.GONE);
+                        btnSignIn.setText("Sign In");
                     }
                 } else {
                     // Offline login
@@ -139,15 +163,16 @@ public class login extends AppCompatActivity {
                             startActivity(new Intent(login.this, MainActivity.class));
                             finish();
                             SessionManager sessionManager = new SessionManager(this);
-                            sessionManager.saveSession(username); // Save logged in user
+                            sessionManager.saveSession(username, localUser.role); // Save logged in user
                         });
                     } else {
-                        runOnUiThread(() -> showToast("Offline login failed"));
+                        runOnUiThread(() -> showToast("Login failed"));
+                        btnSignIn.setEnabled(true);
+                        progressBar.setVisibility(View.GONE);
+                        btnSignIn.setText("Sign In");
                     }
                 }
             });
-
-
         });
     }
 

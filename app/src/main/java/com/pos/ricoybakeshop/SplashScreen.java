@@ -13,7 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class SplashScreen extends AppCompatActivity {
 
-    private static final int SPLASH_DURATION = 1500; // 1.5 seconds
+    private static final int SPLASH_DURATION = 1000; // 1 second
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,13 +27,26 @@ public class SplashScreen extends AppCompatActivity {
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             SessionManager sessionManager = new SessionManager(SplashScreen.this);
+            String role = sessionManager.getUserRole();
 
             if (sessionManager.isLoggedIn()) {
-                // ✅ User is logged in, go to Dashboard
-                Intent intent = new Intent(SplashScreen.this, MainActivity.class);
-                startActivity(intent);
+                // User is logged in, go to Dashboard
+                switch (role){
+                    case "admin":
+                        Intent admin_screen = new Intent(SplashScreen.this, MainActivity.class);
+                        startActivity(admin_screen);
+                        break;
+                    case "baker":
+                        Intent baker_screen = new Intent(SplashScreen.this, Baker.class);
+                        startActivity(baker_screen);
+                        break;
+                    case "cashier":
+                        Intent cashier_screen = new Intent(SplashScreen.this, Cashier.class);
+                        startActivity(cashier_screen);
+                        break;
+                }
             } else {
-                // ❌ Not logged in, go to Login
+                // Not logged in, go to Login
                 Intent intent = new Intent(SplashScreen.this, login.class);
                 startActivity(intent);
             }
