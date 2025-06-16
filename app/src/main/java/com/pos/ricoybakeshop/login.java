@@ -32,6 +32,8 @@ import java.util.concurrent.Executors;
 public class login extends AppCompatActivity {
 
     private TextInputEditText userName, passWord;
+
+    private TextInputLayout user, pass, ddbranch;
     private MaterialButton btnSignIn;
 
     private SupabaseClient supabase;
@@ -55,6 +57,9 @@ public class login extends AppCompatActivity {
         passWord = findViewById(R.id.txtPassword);
         btnSignIn = findViewById(R.id.btnSignIn);
         autoCompleteTextView = findViewById(R.id.branch_dropdown);
+        user = findViewById(R.id.user);
+        pass = findViewById(R.id.pass);
+        ddbranch = findViewById(R.id.ddbranch);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,
@@ -71,8 +76,14 @@ public class login extends AppCompatActivity {
             String password = passWord.getText().toString();
             String branch = autoCompleteTextView.getText().toString();
 
-            if (username.isEmpty() || password.isEmpty()) {
-                showToast("Please enter both username and password.");
+            if (!username.isEmpty() || !password.isEmpty() || !branch.isEmpty()) {
+                user.setError(null);
+                pass.setError(null);
+                ddbranch.setError(null);
+            }else{
+                user.setError("Invalid input");
+                pass.setError("Invalid input");
+                ddbranch.setError("Please select branch");
                 return;
             }
 
@@ -94,7 +105,7 @@ public class login extends AppCompatActivity {
                             return;
                         }
 
-                        // ✅ Hash password before storing
+                        // Hash password before storing
                         String hashedPassword = PasswordUtils.hash(password);
 
                         // Save to Room for offline login
@@ -111,6 +122,8 @@ public class login extends AppCompatActivity {
                             showToast("Login successful (online)");
                             startActivity(new Intent(login.this, MainActivity.class));
                             finish();
+                            SessionManager sessionManager = new SessionManager(this);
+                            sessionManager.saveSession(username); // Save logged in user
                         });
 
                     } catch (Exception e) {
@@ -125,6 +138,8 @@ public class login extends AppCompatActivity {
                             showToast("Login successful (offline)");
                             startActivity(new Intent(login.this, MainActivity.class));
                             finish();
+                            SessionManager sessionManager = new SessionManager(this);
+                            sessionManager.saveSession(username); // Save logged in user
                         });
                     } else {
                         runOnUiThread(() -> showToast("Offline login failed"));

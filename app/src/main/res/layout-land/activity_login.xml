@@ -23,8 +23,8 @@
             android:paddingEnd="30dp">
 
             <ImageView
-                android:layout_width="600dp"
-                android:layout_height="700dp"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
                 android:layout_gravity="center"
                 android:src="@drawable/logo" />
 
@@ -58,7 +58,8 @@
                 android:text="Login to Your Account"/>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="580dp"
+                android:id="@+id/user"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Username"
                 app:endIconMode="clear_text">
@@ -73,7 +74,8 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="580dp"
+                android:id="@+id/pass"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:endIconMode="password_toggle"
                 android:paddingBottom="10dp"
@@ -91,8 +93,9 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ddbranch"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="580dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Select Branch"
                 android:paddingBottom="30dp">

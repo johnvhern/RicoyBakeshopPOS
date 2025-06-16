@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -15,14 +16,10 @@
         android:theme="@style/Theme.RicoyBakeshopPOS"
         tools:targetApi="31">
         <activity
-            android:name=".Baker"
-            android:exported="false" />
-        <activity
-            android:name=".Cashier"
-            android:exported="false" />
-        <activity
-            android:name=".login"
-            android:exported="true">
+            android:name=".SplashScreen"
+            android:exported="true"
+            android:screenOrientation="landscape">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,8 +27,21 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".Baker"
+            android:exported="false"
+            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".Cashier"
+            android:exported="false"
+            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".login"
+            android:exported="true"
+            android:screenOrientation="landscape"/>
+        <activity
             android:name=".MainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="landscape"/>
     </application>
 
 </manifest>
