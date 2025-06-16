@@ -1,25 +1,23 @@
 package com.pos.ricoybakeshop;
 
 import android.content.Context;
-
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {LocalUserSession.class}, version = 1)
+@Database(entities = {LoggedInUser.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
-    private static AppDatabase instance;
+    private static volatile AppDatabase INSTANCE;
 
-    public abstract UserDao userDao();
+    public abstract LoggedInUserDAO loggedInUserDao();
 
-    public static synchronized AppDatabase getInstance(Context context) {
-        if (instance == null) {
-            instance = Room.databaseBuilder(
+    public static AppDatabase getInstance(Context context) {
+        if (INSTANCE == null) {
+            INSTANCE = Room.databaseBuilder(
                     context.getApplicationContext(),
-                    AppDatabase.class,
-                    "app_db"
+                    AppDatabase.class, "pos-db"
             ).build();
         }
-        return instance;
+        return INSTANCE;
     }
 }

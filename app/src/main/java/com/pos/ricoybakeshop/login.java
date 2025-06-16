@@ -1,5 +1,7 @@
 package com.pos.ricoybakeshop;
 
+import static com.pos.ricoybakeshop.NetworkUtils.isNetworkAvailable;
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -24,6 +26,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONObject;
 
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class login extends AppCompatActivity {
@@ -32,7 +35,8 @@ public class login extends AppCompatActivity {
     private MaterialButton btnSignIn;
 
     private SupabaseClient supabase;
-    private UserDao userDao;
+
+    private AppDatabase db;
 
     private MaterialAutoCompleteTextView autoCompleteTextView;
 
@@ -60,18 +64,75 @@ public class login extends AppCompatActivity {
         autoCompleteTextView.setAdapter(adapter);
 
         supabase = new SupabaseClient();
-        userDao = AppDatabase.getInstance(this).userDao();
+        db = AppDatabase.getInstance(getApplicationContext());
 
         btnSignIn.setOnClickListener(v -> {
             String username = userName.getText().toString().trim();
             String password = passWord.getText().toString();
             String branch = autoCompleteTextView.getText().toString();
 
-            if (isOnline()){
-                loginOnline(username, password, branch);
-            }else {
-                loginOffline(username, password, branch);
+            if (username.isEmpty() || password.isEmpty()) {
+                showToast("Please enter both username and password.");
+                return;
             }
+
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            executor.execute(() -> {
+                if (isNetworkAvailable(login.this)) {
+                    // Online login via Supabase
+                    try {
+                        JSONObject profile = supabase.fetchUserProfileByUsername(username);
+                        if (profile == null) {
+                            runOnUiThread(() -> showToast("Username not found"));
+                            return;
+                        }
+
+                        String email = profile.getString("email");
+                        SupabaseSession session = supabase.loginWithEmail(email, password);
+                        if (session == null) {
+                            runOnUiThread(() -> showToast("Invalid credentials"));
+                            return;
+                        }
+
+                        // ✅ Hash password before storing
+                        String hashedPassword = PasswordUtils.hash(password);
+
+                        // Save to Room for offline login
+                        LoggedInUser user = new LoggedInUser();
+                        user.userId = session.getUserId();
+                        user.username = username;
+                        user.password = hashedPassword;
+                        user.role = profile.getString("role");
+                        user.branch = profile.getString("branch");
+
+                        db.loggedInUserDao().insertUser(user);
+
+                        runOnUiThread(() -> {
+                            showToast("Login successful (online)");
+                            startActivity(new Intent(login.this, MainActivity.class));
+                            finish();
+                        });
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        runOnUiThread(() -> showToast("Error: " + e.getMessage()));
+                    }
+                } else {
+                    // Offline login
+                    LoggedInUser localUser = db.loggedInUserDao().getUser(username);
+                    if (localUser != null && PasswordUtils.verify(password, localUser.password)) {
+                        runOnUiThread(() -> {
+                            showToast("Login successful (offline)");
+                            startActivity(new Intent(login.this, MainActivity.class));
+                            finish();
+                        });
+                    } else {
+                        runOnUiThread(() -> showToast("Offline login failed"));
+                    }
+                }
+            });
+
+
         });
     }
 
@@ -83,53 +144,6 @@ public class login extends AppCompatActivity {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = cm.getActiveNetworkInfo();
         return info != null && info.isConnected();
-    }
-
-    private void loginOnline(String username, String password, String branch) {
-        Executors.newSingleThreadExecutor().execute(() -> {
-            try {
-                JSONObject user = supabase.fetchUser(username, branch);
-                if (user == null) {
-                    runOnUiThread(() -> showToast("User not found or wrong branch"));
-                    return;
-                }
-
-                String email = username + "@gmail.com"; // Supabase uses email for login
-                SupabaseClient.AuthResponse auth = supabase.login(email, password);
-                if (auth == null) {
-                    runOnUiThread(() -> showToast("Login failed."));
-                    return;
-                }
-
-                // Save session to Room
-                LocalUserSession session = new LocalUserSession();
-                session.userId = user.getString("id");
-                session.username = username;
-                session.branch = branch;
-                session.role = user.getString("role");
-                session.hashedPassword = PasswordUtils.hash(password); // Save hashed password
-                session.accessToken = auth.accessToken;
-                session.refreshToken = auth.refreshToken;
-
-                userDao.insert(session);
-                runOnUiThread(() -> redirectToRoleScreen(session.role));
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                runOnUiThread(() -> showToast("Login error: " + e.getMessage()));
-            }
-        });
-    }
-
-    private void loginOffline(String username, String password, String branch) {
-        Executors.newSingleThreadExecutor().execute(() -> {
-            LocalUserSession session = userDao.getUser(username, branch);
-            if (session != null && PasswordUtils.verify(password, session.hashedPassword)) {
-                runOnUiThread(() -> redirectToRoleScreen(session.role));
-            } else {
-                runOnUiThread(() -> showToast("Offline login failed"));
-            }
-        });
     }
 
     private void redirectToRoleScreen(String role) {
