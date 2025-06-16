@@ -1,0 +1,59 @@
+[33mcommit 30967e8a641ebf91c46d2d6b2a72523e4cee15a2[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: johnvhern <johnvhern.dc@gmail.com>
+Date:   Mon Jun 16 19:49:31 2025 +0800
+
+    modified to store user role and directed the screen based on that role
+
+[33mcommit 235036c2a85923b8ce556a92628aed7b38d36c05[m
+Author: johnvhern <johnvhern.dc@gmail.com>
+Date:   Mon Jun 16 13:31:52 2025 +0800
+
+    added error validation in the login, modified layout, addedd SplashScreen for checking if user is already logged in
+
+[33mcommit 75ac1af106f3655fb9ea6676b90267b39767b80b[m
+Author: johnvhern <johnvhern.dc@gmail.com>
+Date:   Mon Jun 16 12:09:40 2025 +0800
+
+    modify the login logic to not use the username as the value for username instead of email
+
+[33mcommit f18e6e3e539305c85ab7504637e3030e1bcfc98e[m
+Author: johnvhern <johnvhern.dc@gmail.com>
+Date:   Mon Jun 16 11:03:06 2025 +0800
+
+    modified layout for better view
+
+[33mcommit 3a1982b815db65e900adc03e0e8e61d1a22fc03a[m
+Author: johnvhern <johnvhern.dc@gmail.com>
+Date:   Mon Jun 16 10:22:11 2025 +0800
+
+    corrected the font sizes and also the height of the logo
+
+[33mcommit 3cd5930dd048f16b7cea1f13d5f1ad9885b908f6[m
+Author: johnvhern <johnvhern.dc@gmail.com>
+Date:   Sun Jun 15 23:31:58 2025 +0800
+
+    added login functionality for testing purposes by manual inserting of user to supabase
+
+[33mcommit 7b609528637e4e6afa7ed6979d0ee3fa3f5ebe8c[m
+Author: johnvhern <johnvhern.dc@gmail.com>
+Date:   Sun Jun 15 22:22:57 2025 +0800
+
+    fixed leaked token and added other dependencies
+
+[33mcommit 91d3d4fbcd23ec67393a4b47c2555ea101f8127d[m
+Author: johnvhern <johnvhern.dc@gmail.com>
+Date:   Sun Jun 15 22:15:19 2025 +0800
+
+    added material exposed drop down in the login screen for selection of branch location, added an xml to store branches in an array, added logic to the dropdown for the value to show
+
+[33mcommit 1a0955b0b4b55d4b13b9d7e69fd37a7803c7a891[m
+Author: johnvhern <johnvhern.dc@gmail.com>
+Date:   Sun Jun 15 21:06:49 2025 +0800
+
+    modified the project to fit for landscape view for tablet, created the layout for login page, imported fonts, images, added dependency for material design and also edit color scheme to fit the project ui
+
+[33mcommit 5e7102ad1e946b270915ec0a0b28eca9615cd8d9[m
+Author: johnvhern <johnvhern.dc@gmail.com>
+Date:   Sun Jun 15 17:41:05 2025 +0800
+
+    first initial commit for RicoyBakeshopPOS
