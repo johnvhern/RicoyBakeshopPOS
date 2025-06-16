@@ -83,15 +83,37 @@ public class login extends AppCompatActivity {
             String password = passWord.getText().toString();
             String branch = autoCompleteTextView.getText().toString().trim();
 
-            if (username.isEmpty() || password.isEmpty() || branch.isEmpty()) {
-                user.setError("Invalid input");
-                pass.setError("Invalid input");
-                ddbranch.setError("Please select branch");
-                return;
-            }else{
+            boolean hasError = false;
+
+            if (username.isEmpty()) {
+                user.setError("Username is required");
+                userName.requestFocus();
+                hasError = true;
+            } else {
                 user.setError(null);
+            }
+
+            if (password.isEmpty()) {
+                pass.setError("Password is required");
+                if (!hasError) passWord.requestFocus();
+                hasError = true;
+            } else {
                 pass.setError(null);
+            }
+
+            if (branch.isEmpty()) {
+                ddbranch.setError("Please select a branch");
+                if (!hasError) ddbranch.requestFocus();
+                hasError = true;
+            } else {
                 ddbranch.setError(null);
+            }
+
+            if (hasError) {
+                btnSignIn.setEnabled(true);
+                progressBar.setVisibility(View.GONE);
+                btnSignIn.setText("Sign In");
+                return;
             }
 
             ExecutorService executor = Executors.newSingleThreadExecutor();
