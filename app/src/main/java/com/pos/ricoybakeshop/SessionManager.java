@@ -8,12 +8,21 @@ public class SessionManager {
     private static final String KEY_USERNAME = "username";
     private static final String KEY_ROLE = "role";
 
+    private static SessionManager instance;
     private final SharedPreferences prefs;
     private final SharedPreferences.Editor editor;
 
     public SessionManager(Context context) {
         prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         editor = prefs.edit();
+    }
+
+    // Singleton access
+    public static synchronized SessionManager getInstance(Context context) {
+        if (instance == null) {
+            instance = new SessionManager(context);
+        }
+        return instance;
     }
 
     public void saveSession(String username, String role) {

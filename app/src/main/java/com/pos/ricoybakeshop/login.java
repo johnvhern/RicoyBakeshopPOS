@@ -124,6 +124,9 @@ public class login extends AppCompatActivity {
                         JSONObject profile = supabase.fetchUserProfileByUsername(username);
                         if (profile == null) {
                             runOnUiThread(() -> showToast("Username not found"));
+                            btnSignIn.setEnabled(true);
+                            progressBar.setVisibility(View.GONE);
+                            btnSignIn.setText("Sign In");
                             return;
                         }
 
@@ -131,6 +134,9 @@ public class login extends AppCompatActivity {
                         SupabaseSession session = supabase.loginWithEmail(email, password);
                         if (session == null) {
                             runOnUiThread(() -> showToast("Invalid credentials"));
+                            btnSignIn.setEnabled(true);
+                            progressBar.setVisibility(View.GONE);
+                            btnSignIn.setText("Sign In");
                             return;
                         }
 
@@ -149,22 +155,8 @@ public class login extends AppCompatActivity {
 
                         runOnUiThread(() -> {
                             showToast("Login successful (online)");
-//                            startActivity(new Intent(login.this, MainActivity.class));
-//                            finish();
-                            switch (user.role){
-                                case "admin":
-                                    startActivity(new Intent(login.this, MainActivity.class));
-                                    finish();
-                                    break;
-                                case "cashier":
-                                    startActivity(new Intent(login.this, Cashier.class));
-                                    finish();
-                                    break;
-                                case "baker":
-                                    startActivity(new Intent(login.this, Baker.class));
-                                    finish();
-                                    break;
-                            }
+                            startActivity(new Intent(login.this, MainActivity.class));
+                            finish();
                             SessionManager sessionManager = new SessionManager(this);
                             sessionManager.saveSession(username, user.role); // Save logged in user
                         });

@@ -31,20 +31,8 @@ public class SplashScreen extends AppCompatActivity {
 
             if (sessionManager.isLoggedIn()) {
                 // User is logged in, go to Dashboard
-                switch (role){
-                    case "admin":
-                        Intent admin_screen = new Intent(SplashScreen.this, MainActivity.class);
-                        startActivity(admin_screen);
-                        break;
-                    case "baker":
-                        Intent baker_screen = new Intent(SplashScreen.this, Baker.class);
-                        startActivity(baker_screen);
-                        break;
-                    case "cashier":
-                        Intent cashier_screen = new Intent(SplashScreen.this, Cashier.class);
-                        startActivity(cashier_screen);
-                        break;
-                }
+                Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                startActivity(intent);
             } else {
                 // Not logged in, go to Login
                 Intent intent = new Intent(SplashScreen.this, login.class);

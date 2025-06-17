@@ -2,18 +2,29 @@ package com.pos.ricoybakeshop;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private MaterialButton btnLogout;
+    RecyclerView sidebarRecyclerView;
+    List<MenuItem> menuItemList;
+    MenuAdapter menuAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +37,23 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        sidebarRecyclerView = findViewById(R.id.sidebarRecyclerView);
+        sidebarRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         btnLogout = findViewById(R.id.btnLogout);
+
+        String role = SessionManager.getInstance(this).getUserRole();
+        menuItemList = getMenuItemsForRole(role);
+
+        menuAdapter = new MenuAdapter(menuItemList, position -> {
+            Toast.makeText(this, "Clicked: " + menuItemList.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+        });
+
+        sidebarRecyclerView.setAdapter(menuAdapter);
+        int spaceInPixels = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 12, getResources().getDisplayMetrics()
+        );
+
+        sidebarRecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(spaceInPixels));
 
         btnLogout.setOnClickListener(v -> {
             SessionManager sessionManager = new SessionManager(this);
@@ -36,5 +63,34 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+    }
+
+    private List<MenuItem> getMenuItemsForRole(String role) {
+        List<MenuItem> items = new ArrayList<>();
+        if (role.equals("admin") || role.equals("cashier")) {
+            items.add(new MenuItem(R.drawable.sales, "Sales Overview"));
+            items.add(new MenuItem(R.drawable.alert, "Inventory Alerts"));
+            items.add(new MenuItem(R.drawable.calculator, "POS"));
+            items.add(new MenuItem(R.drawable.history, "Transaction History"));
+            items.add(new MenuItem(R.drawable.fileclock, "Shift Summary"));
+            items.add(new MenuItem(R.drawable.menu, "Category"));
+            items.add(new MenuItem(R.drawable.cookie, "Product List"));
+            items.add(new MenuItem(R.drawable.circlearrowup, "Product Stock In"));
+            items.add(new MenuItem(R.drawable.circlearrowdown, "Product Adjustment"));
+        }
+        if (role.equals("admin") || role.equals("baker")) {
+            items.add(new MenuItem(R.drawable.truck, "Vendor"));
+            items.add(new MenuItem(R.drawable.wheat, "Ingredients List"));
+            items.add(new MenuItem(R.drawable.circlearrowup, "Ingredients Stock In"));
+            items.add(new MenuItem(R.drawable.circlearrowdown, "Ingredients Adjustment"));
+            items.add(new MenuItem(R.drawable.chartcolumnbig, "Ingredients Usage"));
+        }
+        if (role.equals("admin")) {
+            items.add(new MenuItem(R.drawable.usersround, "User Management"));
+            items.add(new MenuItem(R.drawable.flag, "Reports"));
+            items.add(new MenuItem(R.drawable.settings, "Settings"));
+            items.add(new MenuItem(R.drawable.databasebackup, "Backup and Restore"));
+        }
+        return items;
     }
 }
