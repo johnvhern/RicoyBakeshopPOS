@@ -26,12 +26,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Baker"
-            android:exported="false"/>
-        <activity
-            android:name=".Cashier"
-            android:exported="false"/>
-        <activity
             android:name=".login"
             android:exported="true"/>
         <activity

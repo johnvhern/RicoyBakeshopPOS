@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,6 +38,13 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        if (savedInstanceState == null){
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainer, new Fragment_SalesOverview())
+                    .commit();
+        }
+
         sidebarRecyclerView = findViewById(R.id.sidebarRecyclerView);
         sidebarRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         btnLogout = findViewById(R.id.btnLogout);
@@ -45,7 +53,24 @@ public class MainActivity extends AppCompatActivity {
         menuItemList = getMenuItemsForRole(role);
 
         menuAdapter = new MenuAdapter(menuItemList, position -> {
-            Toast.makeText(this, "Clicked: " + menuItemList.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+            Fragment selecedFragment = null;
+
+            switch (position){
+                case 0:
+                    selecedFragment = new Fragment_SalesOverview();
+                    break;
+                case 1:
+                    selecedFragment = new Fragment_InventoryAlert();
+                    break;
+            }
+
+            if (selecedFragment != null) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragmentContainer, selecedFragment)
+                        .commit();
+            }
+
         });
 
         sidebarRecyclerView.setAdapter(menuAdapter);
@@ -92,5 +117,12 @@ public class MainActivity extends AppCompatActivity {
             items.add(new MenuItem(R.drawable.databasebackup, "Backup and Restore"));
         }
         return items;
+    }
+
+    private void loadFragment(Fragment fragment){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainer, fragment)
+                .commit();
     }
 }

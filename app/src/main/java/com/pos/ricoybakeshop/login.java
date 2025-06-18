@@ -123,20 +123,30 @@ public class login extends AppCompatActivity {
                     try {
                         JSONObject profile = supabase.fetchUserProfileByUsername(username);
                         if (profile == null) {
-                            runOnUiThread(() -> showToast("Username not found"));
-                            btnSignIn.setEnabled(true);
-                            progressBar.setVisibility(View.GONE);
-                            btnSignIn.setText("Sign In");
+                            runOnUiThread(() -> {
+                                showToast("Username not found");
+                                btnSignIn.setEnabled(true);
+                                btnSignIn.setText("Sign In");
+
+                                if (progressBar != null) {
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                            });
                             return;
                         }
 
                         String email = profile.getString("email");
                         SupabaseSession session = supabase.loginWithEmail(email, password);
                         if (session == null) {
-                            runOnUiThread(() -> showToast("Invalid credentials"));
-                            btnSignIn.setEnabled(true);
-                            progressBar.setVisibility(View.GONE);
-                            btnSignIn.setText("Sign In");
+                            runOnUiThread(() -> {
+                                showToast("Invalid credentials. Please try again");
+                                btnSignIn.setEnabled(true);
+                                btnSignIn.setText("Sign In");
+
+                                if (progressBar != null) {
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                            });
                             return;
                         }
 
@@ -199,24 +209,4 @@ public class login extends AppCompatActivity {
         NetworkInfo info = cm.getActiveNetworkInfo();
         return info != null && info.isConnected();
     }
-
-    private void redirectToRoleScreen(String role) {
-        Class<?> activityClass = null;
-        switch (role) {
-            case "admin": activityClass = MainActivity.class; break;
-            case "cashier": activityClass = Cashier.class; break;
-            case "baker": activityClass = Baker.class; break;
-        }
-
-        if (activityClass != null) {
-            Intent intent = new Intent(this, activityClass);
-            startActivity(intent);
-            finish();
-        } else {
-            showToast("Unknown role.");
-        }
-    }
-
-
-
 }
