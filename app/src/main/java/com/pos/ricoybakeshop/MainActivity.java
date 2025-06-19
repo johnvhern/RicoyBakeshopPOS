@@ -62,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
                     selecedFragment = new Fragment_InventoryAlert();
                     break;
+                case 2:
+                    selecedFragment = new Fragment_Pos();
+                    break;
             }
 
             if (selecedFragment != null) {

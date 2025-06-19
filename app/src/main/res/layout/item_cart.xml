@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/txtCartProductName"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="Monay"
+        android:textSize="16sp"
+        android:fontFamily="@font/nunitosemibold" />
+
+    <TextView
+        android:id="@+id/txtCartQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingEnd="12dp"
+        android:fontFamily="@font/nunitomedium"
+        android:text="Qty: 1" />
+
+    <TextView
+        android:id="@+id/txtCartSubtotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="₱ 5.00"
+        android:fontFamily="@font/nunitobold" />
+</LinearLayout>
