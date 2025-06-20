@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FCFBFC"
+    android:padding="16dp"
+    tools:context=".Fragment_Category">
+
+    <TextView
+        android:text="Categories"
+        android:textSize="24sp"
+        android:fontFamily="@font/nunitobold"
+        android:textColor="@color/brown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/searchCategory"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="Search Category..."
+        android:textSize="16sp"
+        android:fontFamily="@font/nunitomedium"
+        android:background="@drawable/product_image_border"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:layout_marginTop="12dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:layout_marginTop="8dp">
+
+        <ImageButton
+            android:id="@+id/btnAdd"
+            android:src="@drawable/add"
+            android:background="@drawable/bg_icon_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:contentDescription="Add Category" />
+
+        <ImageButton
+            android:id="@+id/btnRefresh"
+            android:background="@drawable/bg_icon_button"
+            android:src="@drawable/refresh"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="Refresh" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/categoryRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>

@@ -13,7 +13,7 @@
         android:scaleType="fitCenter"
         android:layout_marginBottom="8dp"
         android:background="@drawable/product_image_border"
-        android:src="@drawable/cookie" />
+        android:src="@drawable/cookies" />
 
     <TextView
         android:id="@+id/txtProductName"

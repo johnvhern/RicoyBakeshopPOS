@@ -11,8 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.pos.ricoybakeshop.R;
-import com.pos.ricoybakeshop.Product;
+
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
@@ -65,11 +64,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 if (resId != 0) {
                     holder.imageProduct.setImageResource(resId);
                 } else {
-                    holder.imageProduct.setImageResource(R.drawable.cookie);
+                    holder.imageProduct.setImageResource(R.drawable.cookies);
                 }
             }
         } else {
-            holder.imageProduct.setImageResource(R.drawable.cookie);
+            holder.imageProduct.setImageResource(R.drawable.cookies);
         }
 
         holder.itemView.setOnClickListener(v -> listener.onProductClick(product));

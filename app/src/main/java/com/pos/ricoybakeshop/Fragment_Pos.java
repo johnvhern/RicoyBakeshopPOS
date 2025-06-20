@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.pos.ricoybakeshop.CartAdapter;
 import com.pos.ricoybakeshop.ProductAdapter;
 import com.pos.ricoybakeshop.CartItem;
@@ -38,7 +39,7 @@ import java.util.concurrent.Executors;
 public class Fragment_Pos extends Fragment {
 
     private TextView txtTotal, txtTendered, txtChange, txtDateTime;
-    private Spinner spinnerPaymentMethod;
+    private MaterialAutoCompleteTextView spinnerPaymentMethod;
     private RecyclerView recyclerProducts, recyclerCart;
     private ProductAdapter productAdapter;
     private CartAdapter cartAdapter;
@@ -60,7 +61,6 @@ public class Fragment_Pos extends Fragment {
         txtTendered = view.findViewById(R.id.txtTendered);
         txtChange = view.findViewById(R.id.txtChange);
         txtDateTime = view.findViewById(R.id.txtDateTime);
-        spinnerPaymentMethod = view.findViewById(R.id.spinnerPaymentMethod);
 
         recyclerProducts = view.findViewById(R.id.recyclerProducts);
         recyclerCart = view.findViewById(R.id.recyclerCart);
@@ -88,6 +88,7 @@ public class Fragment_Pos extends Fragment {
             }
             showTenderDialog();
         });
+
     }
 
     private void populateTestProducts() {

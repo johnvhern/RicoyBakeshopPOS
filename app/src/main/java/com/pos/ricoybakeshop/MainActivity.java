@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.TypedValue;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -75,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
                 case "POS":
                     selecedFragment = new Fragment_Pos();
                     break;
+                case "Category":
+                    selecedFragment = new Fragment_Category();
+                    break;
             }
 
             if (selecedFragment != null) {
@@ -112,13 +114,13 @@ public class MainActivity extends AppCompatActivity {
             items.add(new MenuItem(R.drawable.history, "Transaction History"));
             items.add(new MenuItem(R.drawable.fileclock, "Shift Summary"));
             items.add(new MenuItem(R.drawable.menu, "Category"));
-            items.add(new MenuItem(R.drawable.cookie, "Product List"));
+            items.add(new MenuItem(R.drawable.cookies, "Product List"));
             items.add(new MenuItem(R.drawable.circlearrowup, "Product Stock In"));
             items.add(new MenuItem(R.drawable.circlearrowdown, "Product Adjustment"));
         }
         if (role.equals("admin") || role.equals("baker")) {
             items.add(new MenuItem(R.drawable.truck, "Vendor"));
-            items.add(new MenuItem(R.drawable.wheat, "Ingredients List"));
+            items.add(new MenuItem(R.drawable.wheats, "Ingredients List"));
             items.add(new MenuItem(R.drawable.circlearrowup, "Ingredients Stock In"));
             items.add(new MenuItem(R.drawable.circlearrowdown, "Ingredients Adjustment"));
             items.add(new MenuItem(R.drawable.chartcolumnbig, "Ingredients Usage"));

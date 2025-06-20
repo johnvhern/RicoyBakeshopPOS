@@ -11,4 +11,12 @@ public class ProductCategory {
 
     @NonNull
     public String name;
+
+    @NonNull
+    public String iconName;
+
+    public ProductCategory(@NonNull String name, @NonNull String iconName) {
+        this.name = name;
+        this.iconName = iconName;
+    }
 }
