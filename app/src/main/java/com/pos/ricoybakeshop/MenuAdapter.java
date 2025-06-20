@@ -19,7 +19,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     private int selectedPosition = 0; // Default first item selected
 
     public interface OnMenuItemClickListener {
-        void onMenuItemClick(int position);
+        void onMenuItemClick(MenuItem menuItem);
     }
 
     public MenuAdapter(List<MenuItem> menuList, OnMenuItemClickListener listener) {
@@ -50,12 +50,12 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
 
         holder.itemView.setOnClickListener(v -> {
             int previous = selectedPosition;
-            selectedPosition = holder.getAdapterPosition();
+            selectedPosition = holder.getBindingAdapterPosition();
 
             notifyItemChanged(previous);
             notifyItemChanged(selectedPosition);
 
-            listener.onMenuItemClick(selectedPosition);
+            listener.onMenuItemClick(menuList.get(holder.getBindingAdapterPosition()));
         });
     }
 

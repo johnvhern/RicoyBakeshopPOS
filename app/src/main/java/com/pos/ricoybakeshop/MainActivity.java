@@ -1,6 +1,7 @@
 package com.pos.ricoybakeshop;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.widget.Toast;
@@ -38,12 +39,20 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        if (savedInstanceState == null){
+        SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
+        String userRole = prefs.getString("role", "cashier"); // fallback to "cashier"
+
+        if (savedInstanceState == null) {
+            Fragment defaultFragment = "baker".equals(userRole)
+                    ? new Fragment_Vendor()
+                    : new Fragment_SalesOverview();
+
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragmentContainer, new Fragment_SalesOverview())
+                    .replace(R.id.fragmentContainer, defaultFragment)
                     .commit();
         }
+
 
         sidebarRecyclerView = findViewById(R.id.sidebarRecyclerView);
         sidebarRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -52,17 +61,18 @@ public class MainActivity extends AppCompatActivity {
         String role = SessionManager.getInstance(this).getUserRole();
         menuItemList = getMenuItemsForRole(role);
 
-        menuAdapter = new MenuAdapter(menuItemList, position -> {
+        menuAdapter = new MenuAdapter(menuItemList, menuItem -> {
             Fragment selecedFragment = null;
+            String title = menuItem.getTitle();
 
-            switch (position){
-                case 0:
+            switch (title){
+                case "Sales Overview":
                     selecedFragment = new Fragment_SalesOverview();
                     break;
-                case 1:
+                case "Inventory Alerts":
                     selecedFragment = new Fragment_InventoryAlert();
                     break;
-                case 2:
+                case "POS":
                     selecedFragment = new Fragment_Pos();
                     break;
             }
