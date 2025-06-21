@@ -1,4 +1,7 @@
 package com.pos.ricoybakeshop;
+
+import android.os.Build;
+
 import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -6,8 +9,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 public class SupabaseClient {
-    private static final String SUPABASE_URL = "https://ewvaowsmayxgkvyatavb.supabase.co";
-    private static final String API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV3dmFvd3NtYXl4Z2t2eWF0YXZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk5ODA2NjEsImV4cCI6MjA2NTU1NjY2MX0.lHURuXCaDh8VSMzx4Tf92BBATFvrVjDQ2FtxmkYDi1w";
+    private static final String SUPABASE_URL = BuildConfig.SUPABASE_URL;
+    private static final String API_KEY = BuildConfig.SUPABASE_ANON_KEY;
     private static final String AUTH_URL = SUPABASE_URL + "/auth/v1/token?grant_type=password";
     private static final String USERS_TABLE_URL = SUPABASE_URL + "/rest/v1/users";
 

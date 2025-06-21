@@ -1,9 +1,13 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
 }
+
 android {
     namespace = "com.pos.ricoybakeshop"
     compileSdk = 35
+    android.buildFeatures.buildConfig = true;
 
     defaultConfig {
         applicationId = "com.pos.ricoybakeshop"
@@ -12,9 +16,27 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
+        val keystoreFile = project.rootProject.file("apikeys.properties")
+        val properties = Properties()
+        properties.load(keystoreFile.inputStream())
+
+        val anonKey = properties.getProperty("SUPABASE_ANON_KEY") ?: ""
+
+        buildConfigField(
+            type = "String",
+            name = "SUPABASE_ANON_KEY",
+            value = anonKey
+        )
+
+        val apiKey = properties.getProperty("SUPABASE_URL") ?: ""
+
+        buildConfigField(
+            type = "String",
+            name = "SUPABASE_URL",
+            value = apiKey
+        )
 
     }
 
