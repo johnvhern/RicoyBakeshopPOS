@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -216,31 +217,19 @@ public class Fragment_Pos extends Fragment {
     }
 
     private void showTenderDialog() {
-        EditText input = new EditText(getContext());
-        input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        TenderAmountDialog dialog = new TenderAmountDialog(tendered -> {
+            double total = calculateTotal();
+            double change = tendered - total;
 
-        new AlertDialog.Builder(getContext())
-                .setTitle("Enter Amount Tendered")
-                .setView(input)
-                .setPositiveButton("OK", (dialog, which) -> {
-                    try {
-                        double tendered = Double.parseDouble(input.getText().toString());
-                        double total = calculateTotal();
-                        double change = tendered - total;
+            txtTendered.setText("Amount Tendered: ₱ " + String.format("%.2f", tendered));
+            txtChange.setText("Change: ₱ " + String.format("%.2f", change));
 
-                        txtTendered.setText("Amount Tendered: ₱ " + String.format("%.2f", tendered));
-                        txtChange.setText("Change: ₱ " + String.format("%.2f", change));
+            cartList.clear();
+            updateCart();
+            Toast.makeText(getContext(), "Payment successful", Toast.LENGTH_SHORT).show();
+        });
+        dialog.show(getChildFragmentManager(), "TenderDialog");
 
-                        cartList.clear();
-                        updateCart();
-                        Toast.makeText(getContext(), "Payment successful", Toast.LENGTH_SHORT).show();
-
-                    } catch (NumberFormatException e) {
-                        Toast.makeText(getContext(), "Invalid amount", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setNegativeButton("Cancel", null)
-                .show();
     }
 
     private double calculateTotal() {

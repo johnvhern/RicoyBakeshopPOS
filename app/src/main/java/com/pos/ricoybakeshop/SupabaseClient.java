@@ -74,34 +74,5 @@ public class SupabaseClient {
         }
         return null;
     }
-
-    // Optional: fetch profile by email
-    public JSONObject fetchUserProfileByEmail(String email) throws Exception {
-        HttpUrl url = HttpUrl.parse(USERS_TABLE_URL)
-                .newBuilder()
-                .addQueryParameter("email", "eq." + email)
-                .addQueryParameter("select", "*")
-                .build();
-
-        Request request = new Request.Builder()
-                .url(url)
-                .get()
-                .addHeader("apikey", API_KEY)
-                .addHeader("Authorization", "Bearer " + API_KEY)
-                .addHeader("Accept", "application/json")
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) return null;
-
-            String responseBody = response.body().string();
-            JSONArray arr = new JSONArray(responseBody);
-
-            if (arr.length() > 0) {
-                return arr.getJSONObject(0);
-            }
-        }
-        return null;
-    }
 }
 
