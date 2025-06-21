@@ -40,6 +40,7 @@ public class AddCategoryDialogFragment extends DialogFragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        view.setBackgroundResource(R.drawable.rounded_background);
         EditText editName = view.findViewById(R.id.editCategoryName);
         RecyclerView iconRecyclerView = view.findViewById(R.id.iconRecyclerView);
         Button btnAdd = view.findViewById(R.id.btnAdd);
@@ -64,6 +65,11 @@ public class AddCategoryDialogFragment extends DialogFragment {
         });
 
         btnCancel.setOnClickListener(v -> dismiss());
+    }
+
+    @Override
+    public int getTheme() {
+        return R.style.NoBackgroundDialogTheme;
     }
 
     @Override

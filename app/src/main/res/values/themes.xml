@@ -6,5 +6,11 @@
         <item name="colorOutline">#451C0D</item>
     </style>
 
+    <style name="NoBackgroundDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowBackground">@null</item>
+        <item name="colorPrimary">#451C0D</item>
+        <item name="colorOutline">#451C0D</item>
+    </style>
+
     <style name="Theme.RicoyBakeshopPOS" parent="Base.Theme.RicoyBakeshopPOS" />
 </resources>

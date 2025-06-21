@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,12 +41,18 @@ public class Fragment_Pos extends Fragment {
 
     private TextView txtTotal, txtTendered, txtChange, txtDateTime;
     private MaterialAutoCompleteTextView spinnerPaymentMethod;
-    private RecyclerView recyclerProducts, recyclerCart;
+    private RecyclerView recyclerProducts, recyclerCart, recycleCategoryCard;
     private ProductAdapter productAdapter;
     private CartAdapter cartAdapter;
 
+    AppDatabase db;
+    private POS_Category_Tab categoryAdapter;
+
     private List<Product> productList = new ArrayList<>();
     private List<CartItem> cartList = new ArrayList<>();
+
+    List<ProductCategory> categoryList = new ArrayList<>();
+
 
     @Nullable
     @Override
@@ -64,6 +71,7 @@ public class Fragment_Pos extends Fragment {
 
         recyclerProducts = view.findViewById(R.id.recyclerProducts);
         recyclerCart = view.findViewById(R.id.recyclerCart);
+        recycleCategoryCard = view.findViewById(R.id.categoryRecyclerView);
 
         recyclerProducts.setLayoutManager(new GridLayoutManager(getContext(), 3));
         recyclerCart.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -73,6 +81,38 @@ public class Fragment_Pos extends Fragment {
 
         recyclerProducts.setAdapter(productAdapter);
         recyclerCart.setAdapter(cartAdapter);
+
+
+        recycleCategoryCard.setLayoutManager(
+                new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
+        );
+
+        categoryAdapter = new POS_Category_Tab(getContext(), categoryList, new POS_Category_Tab.OnCategoryClickListener() {
+            @Override
+            public void onCategoryClick(ProductCategory category) {
+                // Do something when a category is clicked, like filter products
+                Log.d("POS", "Selected category: " + category.name);
+                // or update UI based on selected category
+            }
+        });
+
+        recycleCategoryCard.setAdapter(categoryAdapter);
+
+
+        // Initialize DB
+        db = AppDatabase.getInstance(requireContext());
+
+        // Load categories from Room DB
+        new Thread(() -> {
+            List<ProductCategory> categories = db.categoryDao().getAll();
+            requireActivity().runOnUiThread(() -> {
+                categoryList.clear();
+                categoryList.addAll(categories);
+                categoryAdapter.notifyDataSetChanged();
+            });
+        }).start();
+
+
 
 //        loadProductsFromRoom();
         populateTestProducts();

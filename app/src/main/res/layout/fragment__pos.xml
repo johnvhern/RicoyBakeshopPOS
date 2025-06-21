@@ -28,17 +28,14 @@
             android:textColor="@color/black" />
 
         <!-- Category Tabs (horizontal scroll) -->
-        <HorizontalScrollView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/categoryRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="12dp"
-            android:paddingBottom="12dp">
-            <LinearLayout
-                android:id="@+id/categoryContainer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" />
-        </HorizontalScrollView>
+            android:overScrollMode="never"
+            android:clipToPadding="false"
+            />
 
         <!-- Search Bar -->
         <LinearLayout
