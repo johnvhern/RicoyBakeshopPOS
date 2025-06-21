@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_add_product_card"
+    android:layout_width="match_parent"
+    android:layout_margin="16dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Product"
+            android:fontFamily="@font/nunitobold"
+            android:textSize="24sp"
+            android:textColor="@color/brown"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunitosemibold"
+            android:textSize="16sp"
+            android:paddingTop="14dp"
+            android:text="Product Name"/>
+
+        <EditText
+            android:id="@+id/productName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/nunitomedium"
+            android:padding="16dp"
+            android:inputType="text"
+            android:background="@drawable/product_image_border"
+            android:hint="Enter product name"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="14dp"
+            android:fontFamily="@font/nunitosemibold"
+            android:textSize="16sp"
+            android:text="Category"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/productCategory"
+            android:layout_width="match_parent"
+            android:theme="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/productCategorySpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunitosemibold"
+            android:textSize="16sp"
+            android:paddingTop="14dp"
+            android:text="Price"/>
+
+        <EditText
+            android:id="@+id/productPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/nunitomedium"
+            android:padding="16dp"
+            android:inputType="numberDecimal"
+            android:background="@drawable/product_image_border"
+            android:hint="Enter product price"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunitosemibold"
+            android:textSize="16sp"
+            android:paddingTop="14dp"
+            android:text="Quantity"/>
+
+        <EditText
+            android:id="@+id/productQuantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/nunitomedium"
+            android:padding="16dp"
+            android:inputType="number"
+            android:background="@drawable/product_image_border"
+            android:hint="Enter product quantity"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:gravity="end">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCancelProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#f70000"
+                android:text="Cancel"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAddProduct"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_height="wrap_content"
+                android:text="Add"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
