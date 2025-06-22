@@ -77,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
                 case "Category":
                     selecedFragment = new Fragment_Category();
                     break;
+                case "Product List":
+                    selecedFragment = new Fragment_Product();
+                    break;
             }
 
             if (selecedFragment != null) {

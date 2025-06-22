@@ -58,6 +58,7 @@
             <AutoCompleteTextView
                 android:id="@+id/productCategorySpinner"
                 android:layout_width="match_parent"
+                android:inputType="none"
                 android:layout_height="wrap_content"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -89,16 +90,54 @@
             android:paddingTop="14dp"
             android:text="Quantity"/>
 
-        <EditText
-            android:id="@+id/productQuantity"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:fontFamily="@font/nunitomedium"
-            android:padding="16dp"
-            android:inputType="number"
-            android:background="@drawable/product_image_border"
-            android:hint="Enter product quantity"/>
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:suffixText="pcs"
+                android:theme="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/productQuantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/imageSelectorLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingTop="16dp">
+
+            <ImageView
+                android:id="@+id/productImageView"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/add_image"
+                android:background="@drawable/product_image_border"
+                android:contentDescription="Select product image" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tap image to select"
+                android:fontFamily="@font/nunitoregular"
+                android:textSize="14sp"
+                android:paddingTop="8dp"
+                android:textColor="@color/brown" />
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -6,10 +6,10 @@
     android:orientation="vertical"
     android:background="#FCFBFC"
     android:padding="16dp"
-    tools:context=".Fragment_Category">
+    tools:context=".Fragment_Product">
 
     <TextView
-        android:text="Categories"
+        android:text="Products"
         android:textSize="24sp"
         android:fontFamily="@font/nunitobold"
         android:textColor="@color/brown"
@@ -17,10 +17,10 @@
         android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/searchCategory"
+        android:id="@+id/searchProduct"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:hint="Search Category..."
+        android:hint="Search Product..."
         android:textSize="16sp"
         android:fontFamily="@font/nunitomedium"
         android:background="@drawable/product_image_border"
@@ -41,7 +41,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
-            android:contentDescription="Add Category" />
+            android:contentDescription="Add Product" />
 
         <ImageButton
             android:id="@+id/btnRefresh"
@@ -52,18 +52,49 @@
             android:contentDescription="Refresh" />
     </LinearLayout>
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/nunitosemibold"
-        android:textSize="14sp"
-        android:text="Category"/>
+        android:orientation="horizontal"
+        android:layout_gravity="fill_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunitosemibold"
+            android:layout_column="0"
+            android:layout_weight="1"
+            android:text="Name"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunitosemibold"
+            android:layout_weight="1"
+            android:text="Category"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunitosemibold"
+            android:layout_weight="1"
+            android:text="Price"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunitosemibold"
+            android:layout_weight="1"
+            android:text="Stock"/>
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/categoryRecyclerView"
+        android:id="@+id/productRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginTop="16dp" />
+
 
 </LinearLayout>

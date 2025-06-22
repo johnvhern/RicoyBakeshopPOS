@@ -21,12 +21,14 @@
         android:layout_height="wrap_content"
         android:paddingEnd="12dp"
         android:fontFamily="@font/nunitomedium"
+        android:layout_weight="1"
         android:text="Qty: 1" />
 
     <TextView
         android:id="@+id/txtCartSubtotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:text="₱ 5.00"
         android:fontFamily="@font/nunitobold" />
 </LinearLayout>

@@ -20,5 +20,6 @@ public class Product {
 
     public double price;
     public int categoryId;
+    public int quantity;
     public String imageUrl;
 }

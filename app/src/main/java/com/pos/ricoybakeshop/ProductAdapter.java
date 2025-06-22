@@ -52,6 +52,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.txtName.setText(product.name);
         // remove getCategory if for real products
         holder.txtCategory.setText(getCategoryName(product.categoryId));
+        holder.txtQuantity.setText(String.format(String.valueOf(product.quantity) + " pcs"));
         holder.txtPrice.setText("₱" + String.format("%.2f", product.price));
 
         // Load image (local drawable or URI)
@@ -81,13 +82,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
         ImageView imageProduct;
-        TextView txtName, txtCategory, txtPrice;
+        TextView txtName, txtCategory, txtPrice, txtQuantity;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
             imageProduct = itemView.findViewById(R.id.imgProduct);
             txtName = itemView.findViewById(R.id.txtProductName);
             txtCategory = itemView.findViewById(R.id.txtCategory);
+            txtQuantity = itemView.findViewById(R.id.txtProductQuantity);
             txtPrice = itemView.findViewById(R.id.txtProductPrice);
         }
     }

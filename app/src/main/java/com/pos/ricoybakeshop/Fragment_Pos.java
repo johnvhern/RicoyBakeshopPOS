@@ -140,6 +140,7 @@ public class Fragment_Pos extends Fragment {
             p1.id = 1;
             p1.name = "Pandesal";
             p1.categoryId = 1;
+            p1.quantity = 90;
             p1.price = 5.0;
             p1.imageUrl = "pandesal";
 
@@ -147,6 +148,7 @@ public class Fragment_Pos extends Fragment {
             p2.id = 2;
             p2.name = "Elorde";
             p2.categoryId = 2;
+            p2.quantity = 90;
             p2.price = 5.0;
             p2.imageUrl = "elorde";
 
@@ -154,6 +156,7 @@ public class Fragment_Pos extends Fragment {
             p3.id = 3;
             p3.name = "Monay";
             p3.categoryId = 1;
+            p3.quantity = 90;
             p3.price = 5.0;
             p3.imageUrl = "monay";
 
