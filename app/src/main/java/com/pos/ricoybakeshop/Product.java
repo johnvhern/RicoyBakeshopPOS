@@ -22,4 +22,12 @@ public class Product {
     public int categoryId;
     public int quantity;
     public String imageUrl;
+
+    public Product(@NonNull String name, int categoryId, double price, int quantity, @NonNull String imageUrl){
+        this.name = name;
+        this.price = price;
+        this.categoryId = categoryId;
+        this.quantity = quantity;
+        this.imageUrl = imageUrl;
+    }
 }

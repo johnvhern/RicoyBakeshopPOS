@@ -56,13 +56,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
         android:layout_gravity="fill_horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunitosemibold"
-            android:layout_column="0"
+            android:paddingStart="10dp"
             android:layout_weight="1"
             android:text="Name"/>
 
@@ -71,6 +74,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunitosemibold"
             android:layout_weight="1"
+            android:paddingLeft="70dp"
             android:text="Category"/>
 
         <TextView
@@ -78,13 +82,15 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunitosemibold"
             android:layout_weight="1"
+            android:paddingLeft="20dp"
             android:text="Price"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingEnd="10dp"
             android:fontFamily="@font/nunitosemibold"
-            android:layout_weight="1"
+
             android:text="Stock"/>
 
     </LinearLayout>
@@ -93,8 +99,7 @@
         android:id="@+id/productRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="16dp" />
+        android:layout_weight="1" />
 
 
 </LinearLayout>

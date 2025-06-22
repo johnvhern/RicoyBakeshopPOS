@@ -46,6 +46,14 @@ public class POS_Category_Tab extends RecyclerView.Adapter<POS_Category_Tab.View
         ProductCategory category = categoryList.get(position);
         holder.categoryName.setText(category.name);
 
+        String item;
+        if (category.productCount >= 2){
+            item = "Items";
+        }else{
+            item = "Item";
+        }
+        holder.totalProducts.setText(String.format(String.valueOf(category.productCount) + " " + item));
+
         int resId = context.getResources().getIdentifier(
                 category.iconName, "drawable", context.getPackageName());
         holder.iconImageView.setImageResource(resId);
@@ -83,12 +91,14 @@ public class POS_Category_Tab extends RecyclerView.Adapter<POS_Category_Tab.View
         MaterialCardView cardView;
         ImageView iconImageView;
         TextView categoryName;
+        TextView totalProducts;
 
         ViewHolder(View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.cardView);
             iconImageView = itemView.findViewById(R.id.iconImageView);
             categoryName = itemView.findViewById(R.id.categoryName);
+            totalProducts = itemView.findViewById(R.id.totalProducts);
         }
     }
 }

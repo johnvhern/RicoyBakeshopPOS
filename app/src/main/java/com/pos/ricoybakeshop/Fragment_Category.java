@@ -49,7 +49,7 @@ public class Fragment_Category extends Fragment {
                     "donut", "grocery_bag", "ice_cream_cone", "pizza", "sandwich", "soup", "utensils", "vegan", "wheat", "beverages");
 
             AddCategoryDialogFragment dialog = new AddCategoryDialogFragment(iconNames, (name, icon) -> {
-                ProductCategory category = new ProductCategory(name, icon);
+                ProductCategory category = new ProductCategory(name, icon,0);
                 new Thread(() -> {
                     db.categoryDao().insert(category);
                     requireActivity().runOnUiThread(this::loadCategories);

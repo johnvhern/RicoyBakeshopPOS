@@ -15,4 +15,12 @@ public interface ProductDao {
     @Delete void delete(Product product);
     @Query("SELECT * FROM products")
     List<Product> getAllProducts();
+
+    @Query("SELECT categoryId, COUNT(*) as count FROM products GROUP BY categoryId")
+    List<CategoryCount> getProductCount();
+
+    class CategoryCount{
+        public int categoryId;
+        public int count;
+    }
 }

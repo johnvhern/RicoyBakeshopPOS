@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_gravity="center_horizontal"
+    android:padding="8dp"
+    android:background="@drawable/bg_category_row"
+    android:layout_margin="8dp">
+
+    <ImageView
+        android:id="@+id/productImage"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="Product Image"/>
+
+    <TextView
+        android:id="@+id/productName"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/nunitosemibold"
+        android:text="Product Name"/>
+
+    <TextView
+        android:id="@+id/productCategory"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:fontFamily="@font/nunitosemibold"
+        android:text="Product Category"/>
+
+    <TextView
+        android:id="@+id/productPrice"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:fontFamily="@font/nunitosemibold"
+        android:text="Product Price"/>
+
+    <TextView
+        android:id="@+id/productQuantity"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:fontFamily="@font/nunitosemibold"
+        android:text="Product Stock"/>
+
+
+</LinearLayout>

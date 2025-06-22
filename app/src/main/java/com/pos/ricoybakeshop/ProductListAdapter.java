@@ -15,31 +15,25 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 import java.util.Map;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
-
-    public interface OnProductClickListener {
-        void onProductClick(Product product);
-    }
+public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ProductViewHolder> {
 
     private List<Product> productList;
     private Context context;
-    private OnProductClickListener listener;
     private Map<Integer, String> categoryMap;
 
     AppDatabase db;
 
-    public ProductAdapter(Context context, List<Product> productList, Map<Integer, String> categoryMap, OnProductClickListener listener) {
+    public ProductListAdapter(Context context, List<Product> productList, Map<Integer, String> categoryMap) {
         this.context = context;
         this.productList = productList;
         this.categoryMap = categoryMap;
-        this.listener = listener;
     }
 
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_product, parent, false);
+                .inflate(R.layout.item_product_list, parent, false);
         return new ProductViewHolder(view);
     }
 
@@ -58,8 +52,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         } else {
             holder.imageProduct.setImageResource(R.drawable.cookie);
         }
-
-        holder.itemView.setOnClickListener(v -> listener.onProductClick(product));
     }
 
     @Override
@@ -73,11 +65,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageProduct = itemView.findViewById(R.id.imgProduct);
-            txtName = itemView.findViewById(R.id.txtProductName);
-            txtCategory = itemView.findViewById(R.id.txtCategory);
-            txtQuantity = itemView.findViewById(R.id.txtProductQuantity);
-            txtPrice = itemView.findViewById(R.id.txtProductPrice);
+            imageProduct = itemView.findViewById(R.id.productImage);
+            txtName = itemView.findViewById(R.id.productName);
+            txtCategory = itemView.findViewById(R.id.productCategory);
+            txtQuantity = itemView.findViewById(R.id.productQuantity);
+            txtPrice = itemView.findViewById(R.id.productPrice);
         }
     }
 }

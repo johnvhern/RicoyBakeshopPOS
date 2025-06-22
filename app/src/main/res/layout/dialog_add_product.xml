@@ -52,6 +52,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/productCategory"
             android:layout_width="match_parent"
+            app:hintEnabled="false"
             android:theme="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_height="wrap_content">
 
@@ -59,6 +60,8 @@
                 android:id="@+id/productCategorySpinner"
                 android:layout_width="match_parent"
                 android:inputType="none"
+                android:fontFamily="@font/nunitosemibold"
+                android:hint="Select category"
                 android:layout_height="wrap_content"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -71,16 +74,22 @@
             android:paddingTop="14dp"
             android:text="Price"/>
 
-        <EditText
-            android:id="@+id/productPrice"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:fontFamily="@font/nunitomedium"
-            android:padding="16dp"
-            android:inputType="numberDecimal"
-            android:background="@drawable/product_image_border"
-            android:hint="Enter product price"/>
+            app:suffixText="₱"
+            app:hintEnabled="false"
+            android:theme="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/productPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter product price"
+                android:fontFamily="@font/nunitosemibold"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -99,12 +108,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:suffixText="pcs"
+                app:hintEnabled="false"
                 android:theme="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/productQuantity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunitosemibold"
+                    android:hint="Enter product quantity"
                     android:inputType="number"/>
 
             </com.google.android.material.textfield.TextInputLayout>

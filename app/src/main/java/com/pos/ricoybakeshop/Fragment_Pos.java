@@ -34,8 +34,10 @@ import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.Executors;
 
 public class Fragment_Pos extends Fragment {
@@ -65,6 +67,7 @@ public class Fragment_Pos extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // init views...
         txtTotal = view.findViewById(R.id.txtTotal);
         txtTendered = view.findViewById(R.id.txtTendered);
         txtChange = view.findViewById(R.id.txtChange);
@@ -76,47 +79,53 @@ public class Fragment_Pos extends Fragment {
 
         recyclerProducts.setLayoutManager(new GridLayoutManager(getContext(), 3));
         recyclerCart.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        productAdapter = new ProductAdapter(productList, this::onProductClick);
         cartAdapter = new CartAdapter(cartList);
-
-        recyclerProducts.setAdapter(productAdapter);
         recyclerCart.setAdapter(cartAdapter);
-
 
         recycleCategoryCard.setLayoutManager(
                 new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
         );
 
-        categoryAdapter = new POS_Category_Tab(getContext(), categoryList, new POS_Category_Tab.OnCategoryClickListener() {
-            @Override
-            public void onCategoryClick(ProductCategory category) {
-                // Do something when a category is clicked, like filter products
-                Log.d("POS", "Selected category: " + category.name);
-                // or update UI based on selected category
-            }
-        });
-
-        recycleCategoryCard.setAdapter(categoryAdapter);
-
-
         // Initialize DB
         db = AppDatabase.getInstance(requireContext());
 
-        // Load categories from Room DB
+        // Load categories and setup productAdapter safely
         new Thread(() -> {
             List<ProductCategory> categories = db.categoryDao().getAll();
+            List<ProductDao.CategoryCount> counts = db.productDao().getProductCount();
+
+            Map<Integer, String> categoryIdToName = new HashMap<>();
+            for (ProductCategory category : categories) {
+                categoryIdToName.put(category.id, category.name);
+            }
+
+            Map<Integer, Integer> countMap = new HashMap<>();
+            for (ProductDao.CategoryCount count : counts) {
+                countMap.put(count.categoryId, count.count);
+            }
+
+            for (ProductCategory category : categories) {
+                category.productCount = countMap.getOrDefault(category.id, 0);
+            }
+
             requireActivity().runOnUiThread(() -> {
+                // Initialize adapters
+                productAdapter = new ProductAdapter(requireContext(), productList, categoryIdToName, this::onProductClick);
+                recyclerProducts.setAdapter(productAdapter);
+
                 categoryList.clear();
                 categoryList.addAll(categories);
+                categoryAdapter = new POS_Category_Tab(getContext(), categoryList, category -> {
+                    Log.d("POS", "Selected category: " + category.name);
+                });
+                recycleCategoryCard.setAdapter(categoryAdapter);
                 categoryAdapter.notifyDataSetChanged();
+
+                // load products
+                loadProductsFromRoom();
             });
         }).start();
 
-
-
-//        loadProductsFromRoom();
-        populateTestProducts();
         setDateTime();
 
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_spacing);
@@ -129,46 +138,6 @@ public class Fragment_Pos extends Fragment {
             }
             showTenderDialog();
         });
-
-    }
-
-    private void populateTestProducts() {
-        try{
-            productList.clear();
-
-            Product p1 = new Product();
-            p1.id = 1;
-            p1.name = "Pandesal";
-            p1.categoryId = 1;
-            p1.quantity = 90;
-            p1.price = 5.0;
-            p1.imageUrl = "pandesal";
-
-            Product p2 = new Product();
-            p2.id = 2;
-            p2.name = "Elorde";
-            p2.categoryId = 2;
-            p2.quantity = 90;
-            p2.price = 5.0;
-            p2.imageUrl = "elorde";
-
-            Product p3 = new Product();
-            p3.id = 3;
-            p3.name = "Monay";
-            p3.categoryId = 1;
-            p3.quantity = 90;
-            p3.price = 5.0;
-            p3.imageUrl = "monay";
-
-            productList.add(p1);
-            productList.add(p2);
-            productList.add(p3);
-
-            productAdapter.notifyDataSetChanged();
-        }catch (Exception ex){
-            ex.printStackTrace();
-            Toast.makeText(getContext(), "Error: " + ex.getMessage(), Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void setDateTime() {
@@ -180,7 +149,7 @@ public class Fragment_Pos extends Fragment {
     private void loadProductsFromRoom() {
         Executors.newSingleThreadExecutor().execute(() -> {
             try {
-                List<Product> products = AppDatabase.getInstance(requireContext()).productDao().getAllProducts();
+                List<Product> products = db.productDao().getAllProducts();
                 requireActivity().runOnUiThread(() -> {
                     productList.clear();
                     productList.addAll(products);
