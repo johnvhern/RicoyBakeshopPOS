@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="12dp"
+    android:gravity="center_vertical"
     android:background="@color/white">
 
     <TextView
@@ -15,20 +16,43 @@
         android:textSize="16sp"
         android:fontFamily="@font/nunitosemibold" />
 
-    <TextView
-        android:id="@+id/txtCartQuantity"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingEnd="12dp"
-        android:fontFamily="@font/nunitomedium"
-        android:layout_weight="1"
-        android:text="Qty: 1" />
+        android:orientation="horizontal"
+        android:layout_weight="0.5"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/btnMinusQuantity"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_icon_button"
+            android:src="@drawable/minus_quantity_32px"/>
+
+        <EditText
+            android:id="@+id/txtCartQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:inputType="number"
+            android:text="1"/>
+
+        <ImageButton
+            android:id="@+id/btnAddQuantity"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_icon_button"
+            android:src="@drawable/add_quantity_32px"/>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/txtCartSubtotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:layout_weight="1"
         android:text="₱ 5.00"
         android:fontFamily="@font/nunitobold" />
 </LinearLayout>

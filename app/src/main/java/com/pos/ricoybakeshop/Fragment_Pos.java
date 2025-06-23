@@ -79,7 +79,15 @@ public class Fragment_Pos extends Fragment {
 
         recyclerProducts.setLayoutManager(new GridLayoutManager(getContext(), 3));
         recyclerCart.setLayoutManager(new LinearLayoutManager(getContext()));
-        cartAdapter = new CartAdapter(cartList);
+        cartAdapter = new CartAdapter(cartList, position -> {
+            cartAdapter.notifyItemChanged(position);
+            // Update total
+            double total = 0;
+            for (CartItem item : cartList) {
+                total += item.getSubTotal();
+            }
+            txtTotal.setText("Total: ₱ " + String.format("%.2f", total));
+        });
         recyclerCart.setAdapter(cartAdapter);
 
         recycleCategoryCard.setLayoutManager(
@@ -165,9 +173,11 @@ public class Fragment_Pos extends Fragment {
     }
 
     private void onProductClick(Product product) {
-        for (CartItem item : cartList) {
+        for (int i = 0; i < cartList.size(); i++) {
+            CartItem item = cartList.get(i);
             if (item.product.id == product.id) {
                 item.quantity++;
+                cartAdapter.notifyItemChanged(i);
                 updateCart();
                 return;
             }
@@ -176,17 +186,19 @@ public class Fragment_Pos extends Fragment {
         newItem.product = product;
         newItem.quantity = 1;
         cartList.add(newItem);
+
+        cartAdapter.notifyItemInserted(cartList.size() - 1);
         updateCart();
     }
 
     private void updateCart() {
-        cartAdapter.notifyDataSetChanged();
         double total = 0;
         for (CartItem item : cartList) {
             total += item.getSubTotal();
         }
         txtTotal.setText("Total: ₱ " + String.format("%.2f", total));
     }
+
 
     private void showTenderDialog() {
         TenderAmountDialog dialog = new TenderAmountDialog(tendered -> {
