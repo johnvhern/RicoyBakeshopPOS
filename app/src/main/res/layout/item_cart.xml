@@ -10,7 +10,7 @@
     <TextView
         android:id="@+id/txtCartProductName"
         android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:layout_height="wrap_content"
         android:text="Monay"
         android:textSize="16sp"
@@ -20,13 +20,13 @@
         android:layout_width="wrap_content"
         android:orientation="horizontal"
         android:layout_weight="0.5"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|center"
         android:layout_height="wrap_content">
 
         <ImageButton
             android:id="@+id/btnMinusQuantity"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:background="@drawable/bg_icon_button"
             android:src="@drawable/minus_quantity_32px"/>
 
@@ -41,8 +41,8 @@
 
         <ImageButton
             android:id="@+id/btnAddQuantity"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:background="@drawable/bg_icon_button"
             android:src="@drawable/add_quantity_32px"/>
 
@@ -52,7 +52,16 @@
         android:id="@+id/txtCartSubtotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_weight="0.3"
         android:text="₱ 5.00"
         android:fontFamily="@font/nunitobold" />
+
+    <ImageButton
+        android:id="@+id/btnRemoveProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_icon_button"
+        android:src="@drawable/remove_product"
+        android:contentDescription="Remove product button in cart"/>
 </LinearLayout>

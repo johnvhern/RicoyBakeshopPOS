@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
 import com.pos.ricoybakeshop.CartAdapter;
 import com.pos.ricoybakeshop.ProductAdapter;
 import com.pos.ricoybakeshop.CartItem;
@@ -43,7 +45,8 @@ import java.util.concurrent.Executors;
 public class Fragment_Pos extends Fragment {
 
     private TextView txtTotal, txtTendered, txtChange, txtDateTime;
-    private MaterialAutoCompleteTextView spinnerPaymentMethod;
+    private AutoCompleteTextView spinnerPaymentMethod;
+    private TextInputLayout paymentMethod;
     private RecyclerView recyclerProducts, recyclerCart, recycleCategoryCard;
     private ProductAdapter productAdapter;
     private CartAdapter cartAdapter;
@@ -72,6 +75,9 @@ public class Fragment_Pos extends Fragment {
         txtTendered = view.findViewById(R.id.txtTendered);
         txtChange = view.findViewById(R.id.txtChange);
         txtDateTime = view.findViewById(R.id.txtDateTime);
+        spinnerPaymentMethod = view.findViewById(R.id.spinnerPaymentMethod);
+        paymentMethod = view.findViewById(R.id.paymentMethod);
+
 
         recyclerProducts = view.findViewById(R.id.recyclerProducts);
         recyclerCart = view.findViewById(R.id.recyclerCart);
@@ -80,8 +86,11 @@ public class Fragment_Pos extends Fragment {
         recyclerProducts.setLayoutManager(new GridLayoutManager(getContext(), 3));
         recyclerCart.setLayoutManager(new LinearLayoutManager(getContext()));
         cartAdapter = new CartAdapter(cartList, position -> {
-            cartAdapter.notifyItemChanged(position);
-            // Update total
+            if (position >= 0 && position < cartList.size()) {
+                cartAdapter.notifyItemChanged(position);
+            }
+
+            // Always update the total
             double total = 0;
             for (CartItem item : cartList) {
                 total += item.getSubTotal();
@@ -140,6 +149,15 @@ public class Fragment_Pos extends Fragment {
         recyclerProducts.addItemDecoration(new GridSpacingItemDecoration(3, spacingInPixels, true));
 
         view.findViewById(R.id.btnConfirmPayment).setOnClickListener(v -> {
+            String selectedPaymentMethod = spinnerPaymentMethod.getText().toString().trim();
+            if (selectedPaymentMethod.isEmpty()){
+                paymentMethod.setError("Please select payment method");
+                paymentMethod.requestFocus();
+                Toast.makeText(getContext(), "Please select payment method", Toast.LENGTH_SHORT).show();
+                return;
+            }else{
+                paymentMethod.setError(null);
+            }
             if (cartList.isEmpty()) {
                 Toast.makeText(getContext(), "Cart is empty", Toast.LENGTH_SHORT).show();
                 return;
@@ -201,8 +219,8 @@ public class Fragment_Pos extends Fragment {
 
 
     private void showTenderDialog() {
+        double total = calculateTotal();
         TenderAmountDialog dialog = new TenderAmountDialog(tendered -> {
-            double total = calculateTotal();
             double change = tendered - total;
 
             txtTendered.setText("Amount Tendered: ₱ " + String.format("%.2f", tendered));
@@ -211,9 +229,9 @@ public class Fragment_Pos extends Fragment {
             cartList.clear();
             updateCart();
             Toast.makeText(getContext(), "Payment successful", Toast.LENGTH_SHORT).show();
-        });
-        dialog.show(getChildFragmentManager(), "TenderDialog");
+        }, total);
 
+        dialog.show(getChildFragmentManager(), "TenderAmountDialog");
     }
 
     private double calculateTotal() {

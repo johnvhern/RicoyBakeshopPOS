@@ -1,5 +1,6 @@
 package com.pos.ricoybakeshop;
 
+import android.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -81,6 +82,23 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             }
         });
 
+        holder.btnRemoveProduct.setOnClickListener(v -> {
+            new AlertDialog.Builder(v.getContext())
+                    .setTitle("Remove Product")
+                    .setMessage("Are you sure you want to remove \"" + item.product.name + "\" from the cart?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        int removedPosition = holder.getAdapterPosition();
+                        cartList.remove(removedPosition);
+                        notifyItemRemoved(removedPosition);
+
+                        if (cartChangeListener != null) {
+                            cartChangeListener.onCartChanged(-1); // -1 means total only
+                        }
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
+        });
+
         // Manual edit watcher
         holder.qtyWatcher = new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -116,7 +134,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         TextView txtName, txtSubtotal;
         EditText txtQty;
 
-        ImageButton btnPlus, btnMinus;
+        ImageButton btnPlus, btnMinus, btnRemoveProduct;
 
         TextWatcher qtyWatcher;
 
@@ -127,6 +145,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             txtSubtotal = itemView.findViewById(R.id.txtCartSubtotal);
             btnPlus = itemView.findViewById(R.id.btnAddQuantity);
             btnMinus = itemView.findViewById(R.id.btnMinusQuantity);
+            btnRemoveProduct = itemView.findViewById(R.id.btnRemoveProduct);
         }
     }
 }

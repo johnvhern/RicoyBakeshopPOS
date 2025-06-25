@@ -17,15 +17,16 @@ public class TenderAmountDialog extends DialogFragment {
 
     private EditText etTendered;
     private Button btnConfirm, btnCancel;
-
+    private double total;
     private OnTenderConfirmedListener listener;
 
     public interface OnTenderConfirmedListener {
         void onTenderConfirmed(double tendered);
     }
 
-    public TenderAmountDialog(OnTenderConfirmedListener listener) {
+    public TenderAmountDialog(OnTenderConfirmedListener listener, double total) {
         this.listener = listener;
+        this.total = total;
     }
 
     @Override
@@ -47,14 +48,27 @@ public class TenderAmountDialog extends DialogFragment {
         btnCancel.setOnClickListener(v -> dismiss());
 
         btnConfirm.setOnClickListener(v -> {
+            String input = etTendered.getText().toString().trim();
+
+            if (input.isEmpty()) {
+                etTendered.setError("Please enter an amount");
+                return;
+            }
+
             try {
-                double tendered = Double.parseDouble(etTendered.getText().toString());
+                double tendered = Double.parseDouble(input);
+
+                if (tendered < total) {
+                    etTendered.setError("Amount must be at least ₱" + String.format("%.2f", total));
+                    return;
+                }
+
                 if (listener != null) {
                     listener.onTenderConfirmed(tendered);
                 }
                 dismiss();
             } catch (NumberFormatException e) {
-                Toast.makeText(getContext(), "Invalid amount", Toast.LENGTH_SHORT).show();
+                etTendered.setError("Invalid amount");
             }
         });
 
